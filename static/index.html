@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>三季 · Discord 信息台</title>
+  <link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script>
+</head>
+<body>
+  <div id="notice" role="status" aria-live="polite" hidden></div>
+  <main id="login-view" class="login-layout">
+    <section class="intro">
+      <div class="brand"><span class="mark">三</span><span>三季<span class="brand-sub">DISCORD 信息台</span></span></div>
+      <div class="eyebrow">YOUR CHANNELS. ONE PLACE.</div>
+      <h1>关注的消息，<br>在这里汇合<span class="accent">。</span></h1>
+      <p class="lead">选好频道，交给后台。<br>把文字、图片和附件留在自己的服务器。</p>
+      <div class="flow"><span>连接账号</span><i>→</i><span>选择频道</span><i>→</i><span>持续同步</span></div>
+      <div class="intro-foot"><span class="dot"></span> 私人信息台 · 数据由你保管</div>
+    </section>
+    <section class="login-card">
+      <div class="eyebrow">WELCOME BACK</div><h2>进入你的信息台</h2>
+      <p class="muted">使用工具后台密码登录。</p>
+      <form id="login-form">
+        <label for="password">后台密码</label>
+        <input id="password" type="password" autocomplete="current-password" required placeholder="输入后台密码">
+        <button type="submit" class="primary wide">进入后台 <span>↗</span></button>
+      </form>
+      <p class="small muted">首次启动的密码保存在服务器 <code>data/admin-password.txt</code> 中。也可通过部署配置指定。</p>
+      <div class="divider"></div><p class="small muted">这是工具后台密码，不是 Discord 账号密码。</p>
+    </section>
+  </main>
+
+  <div id="workspace" hidden>
+    <header><div class="brand"><span class="mark">三</span><span>三季<span class="brand-sub">DISCORD 信息台</span></span></div>
+      <div class="header-actions"><span id="connection" class="badge">未连接</span><span id="account" class="muted"></span><button id="logout" class="ghost">退出后台</button></div>
+    </header>
+    <main class="dashboard">
+      <aside>
+        <section class="panel"><div class="section-number">01 / 账号</div><h2>连接 Discord</h2>
+          <p class="muted small">使用能查看“币风港”的个人账号。</p>
+          <form id="connect-form"><label for="token">个人账号 token</label><input id="token" type="password" autocomplete="off" spellcheck="false" required placeholder="粘贴后连接，页面不会回显">
+            <button class="primary wide" type="submit" id="connect-button">连接账号</button></form>
+          <p class="small muted">连接凭据只保存在服务器。个人账号自动化可能导致账号受限。</p>
+          <button id="disconnect" class="ghost wide" disabled>断开并清除保存的 token</button>
+        </section>
+        <section class="panel"><div class="section-number">02 / 监听范围</div><h2>选择频道</h2>
+          <label for="guild">Discord 服务器</label><select id="guild" disabled><option value="">请先连接账号</option></select>
+          <div class="channel-tools"><input id="channel-search" type="search" placeholder="搜索频道" aria-label="搜索频道"><button id="refresh-channels" class="ghost" disabled>刷新</button></div>
+          <div id="channel-list" class="channel-list"><p class="muted small">连接后会优先选择“币风港”。</p></div>
+          <p id="selected-count" class="small muted">已选择 0 个频道</p>
+          <button id="save-channels" class="primary wide" disabled>保存并开始监听</button>
+          <p class="small muted">新选频道从此刻开始收集。帖子和子频道需单独勾选；刷新可加载当前可见的帖子。</p>
+        </section>
+      </aside>
+      <section class="feed-area">
+        <div class="feed-title"><div><div class="eyebrow">LIVE ARCHIVE</div><h1>消息收件箱</h1><p class="muted">让信息留下来，让关注更简单。</p></div><button id="toggle-running" class="secondary" disabled>暂停同步</button></div>
+        <div class="stats"><div><span>已保存消息</span><strong id="stat-messages">0</strong></div><div><span>监听频道</span><strong id="stat-channels">0</strong></div><div><span>已存附件</span><strong id="stat-files">0</strong></div><div><span>待存 / 失败</span><strong id="stat-pending">0 / 0</strong></div></div>
+        <div id="sync-errors" class="warning" hidden></div>
+        <div class="feed-toolbar"><select id="feed-filter" aria-label="筛选已保存消息的频道"><option value="">全部频道</option></select><span id="sync-label" class="small muted">尚未开始同步</span><button id="latest" class="ghost">回到最新</button></div>
+        <div id="messages" class="messages"><div class="empty"><div class="empty-icon">↘</div><h2>等一条新消息</h2><p>连接账号并选好频道后，<br>新消息会自动出现在这里。</p></div></div>
+        <button id="load-more" class="secondary wide" hidden>加载更早的消息</button>
+        <footer>新消息实时接收 · 每分钟补查 · 正文和附件独立保存</footer>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
